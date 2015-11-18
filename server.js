@@ -59,7 +59,7 @@ app.get('/login', function (req, res) {
 });
 // Log-in User
 app.post('/login', passport.authenticate('local'), function (req, res) {
-  res.redirect('/profile');
+  res.redirect('/');
 });
 // Log-out User
 app.get('/logout', function (req, res) {
@@ -69,11 +69,23 @@ app.get('/logout', function (req, res) {
 });
 // Get - All Users
 app.get('/users', isAuthenticated, function(req,res){
-	res.render('users');
+	User.find()
+		.populate('posts')
+			.exec(function(err, allUsers){
+				res.render('users', {users: allUsers});
+			});
 });
-// Get Single User Profile
-app.get('/profile', isAuthenticated, function (req, res) {
-  //res.render('profile', { user: req.user });
+// Get - Individual User
+app.get('/profiles/:id', isAuthenticated, function (req, res) {
+    var userId = req.params.id;
+	User.findOne({_id: userId})
+		.populate('posts')
+			.exec(function(err, singleUser){
+				res.render('profile', {user: singleUser});
+			});
+});
+// Get Current/Logged-in User Profile
+app.get('/', isAuthenticated, function (req, res) {
   var userId = req.user.id;
 	User.findOne({_id: userId})
 		.populate('posts')

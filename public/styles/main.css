@@ -46,6 +46,12 @@ body {
 	vertical-align: bottom;
 }
 
+#nav-all-users {
+	margin-top: 10px;
+	padding-left: 15px;
+	vertical-align: bottom;
+}
+
 #profile-pic {
 	height: 35px;
 	width: 35px;

@@ -10,7 +10,7 @@
 	<!-- custom styles -->
 	<link rel="stylesheet" type="text/css" href="/styles/main.css">
 	<meta charset="UTF-8">
-	<title>All Posts</title>
+	<title>All Users</title>
 </head>
 <body>
 
@@ -44,60 +44,55 @@
 		  </div>
 	  </div>
 	</nav>
-	
 
-	<div class="modal fade" id="NewPostModal" tabindex="-1" role="dialog" aria-labelledby="NewPostModal">
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title" id="NewPostModal">New Post</h4>
+
+
+	<h1>All Users</h1>
+	<ul>
+	{{#each users}}
+		<li>
+			{{username}}: {{posts.length}}
+		</li>
+	{{/each}}
+	</ul>
+
+
+
+	<!-- New Post Modal -->
+	  <div class="modal fade" id="NewPostModal" tabindex="-1" role="dialog" aria-labelledby="NewPostModal">
+	    <div class="modal-dialog" role="document">
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	          <h4 class="modal-title" id="NewPostModal">New Post</h4>
+	        </div>
+	        
+	        <form class="new-post-form">
+	          <div class="modal-body">
+	              <div class="form-group">
+	                <label for="new-title" class="control-label">Title</label>
+	                <input type="text" class="form-control" id="new-title">
+	              </div>
+	              <div class="form-group">
+	                <label for="new-body" class="control-label">Body</label>
+	                <textarea class="form-control" id="new-body"></textarea>
+	              </div>
+	              <div class="form-group">
+	                <label for="new-url" class="control-label">URL</label>
+	                <input type="text" class="form-control" id="new-url">
+	              </div>
+	          </div>
+	          <div class="modal-footer">
+	            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	            <input type="submit" class="btn btn-info" value="submit"></input>
+	          </div>
+	        </form>
 	      </div>
-	      <form class="new-post-form">
-		      <div class="modal-body">
-		          <div class="form-group">
-		            <label for="new-title" class="control-label">Title</label>
-		            <input type="text" class="form-control" id="new-title">
-		          </div>
-		          <div class="form-group">
-		            <label for="new-body" class="control-label">Body</label>
-		            <textarea class="form-control" id="new-body"></textarea>
-		          </div>
-		          <div class="form-group">
-		            <label for="new-url" class="control-label">URL</label>
-		            <input type="text" class="form-control" id="new-url">
-		          </div>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		        <input type="submit" class="btn btn-info" value="submit"></input>
-		      </div>
-	      </form>
 	    </div>
-	  </div>
-	</div>
-	
-	<div class="row"  id="posts-list">
-		<script id="posts-template" type="text/x-handlebars-template">
-		\{{#each posts}}
-		<div class="thumbnail" id="thumbnail-posts-list">
-			<div class="row">
-				<div class="hidden-xs col-sm-1">
-	          		<img src="http://www.many.pictures/images/2015/03/02/funny-baby-mirror-we-meet-again.jpg" id="profile-pic-two" class="img-circle">
-	          	</div>
-	        	<div class="col-sm-9">
-				<a href="http://localhost:3000/posts/\{{_id}}">\{{title}}</a><div class="glyphicon glyphicon-heart" id="post-favorite-\{{_id}}"></div>
-				<div class="glyphicon glyphicon-comment" id="post-comment-\{{_id}}"></div>
-				<br>
-				<p>\{{body}}
-					(<a href="\{{url}}" target="_blank">More Info Here</a>)</p>
-				</div>
-			</div>
-	    </div>
-        \{{/each}}
-		</script>
-	</div>
+	  </div>	
 
+	<script id="posts-template" type="text/x-handlebars-template">
+	</script>
 
 	<!-- jquery -->
   	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
