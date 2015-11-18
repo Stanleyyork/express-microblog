@@ -67,7 +67,11 @@ app.get('/logout', function (req, res) {
   req.logout();
   res.redirect('/login');
 });
-// Get User Profile
+// Get - All Users
+app.get('/users', isAuthenticated, function(req,res){
+	res.render('users');
+});
+// Get Single User Profile
 app.get('/profile', isAuthenticated, function (req, res) {
   res.render('profile', { user: req.user });
 });
@@ -105,7 +109,13 @@ app.get('/api/posts', function(req, res){
 app.post('/api/posts', function(req, res){
 	var newPost = new Post(req.body);
 	newPost.save(function(err, savedPost){
-		res.json(savedPost);
+		if(err) {return console.error(err);}
+ 		else console.log(savedPost);
+ 		User.findOne({_id: req.user.id}, function(err, foundUser){
+			foundUser.comments.push(newPost);
+			foundUser.save();
+		});
+		res.json(newPost);
 	});
 });
 // Update - API - Single Post
@@ -117,16 +127,21 @@ app.put('/api/posts/:id', function(req, res){
 		singlePost.body = body.body;
 		singlePost.url = body.url;
 		singlePost.favorite = body.favorite;
-		singlePost.save(function(err, singleBook){
-			res.json(singleBook);
+		singlePost.save(function(err, singlePost){
+			// User.findOne({_id: req.user.id}, function(err, foundUser){
+			// 	foundUser.comments.push(singlePost);
+			// 	foundUser.save();
+			// });
+			res.json(singlePost);
 		});
 	});
 });
-// Delete - API - Single Book
+// Delete - API - Single Post
 app.delete('/api/posts/:id', function(req, res){
 	var postId = req.params.id;
 	Post.findOneAndRemove({_id: postId}, function(err, singlePost){
 		res.json(singlePost);
+		// Do I need to remove the post from User.posts?
 	});
 });
 // Post - API - Single Comment
