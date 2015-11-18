@@ -73,7 +73,13 @@ app.get('/users', isAuthenticated, function(req,res){
 });
 // Get Single User Profile
 app.get('/profile', isAuthenticated, function (req, res) {
-  res.render('profile', { user: req.user });
+  //res.render('profile', { user: req.user });
+  var userId = req.user.id;
+	User.findOne({_id: userId})
+		.populate('posts')
+			.exec(function(err, singleUser){
+				res.render('profile', {user: singleUser});
+			});
 });
 // Get - All Posts
 app.get('/posts', isAuthenticated, function(req,res){
@@ -112,7 +118,7 @@ app.post('/api/posts', function(req, res){
 		if(err) {return console.error(err);}
  		else console.log(savedPost);
  		User.findOne({_id: req.user.id}, function(err, foundUser){
-			foundUser.comments.push(newPost);
+			foundUser.posts.push(newPost);
 			foundUser.save();
 		});
 		res.json(newPost);

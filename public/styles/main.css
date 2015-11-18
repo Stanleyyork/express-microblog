@@ -40,6 +40,12 @@ body {
 	vertical-align: bottom;
 }
 
+#nav-all-posts {
+	margin-top: 10px;
+	padding-left: 15px;
+	vertical-align: bottom;
+}
+
 #profile-pic {
 	height: 35px;
 	width: 35px;
@@ -50,6 +56,12 @@ body {
 	height: 50px;
 	width: 50px;
 	margin-top: 10px;
+}
+
+#profile-pic-three {
+	height: 50px;
+	width: 50px;
+	margin-top: 0px;
 }
 
 .btn-info {
@@ -79,6 +91,12 @@ body {
 	background-color: white;
 	margin: 15px;
 	padding: 5px;
+}
+
+#thumbnail-user-posts-list {
+	background-color: white;
+	margin: 15px;
+	padding: 15px;
 }
 
 #post {
