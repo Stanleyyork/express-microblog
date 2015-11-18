@@ -7,7 +7,6 @@ $(function() {
  	getAllPosts();
  	showFaves($('#updateFavorite').val());
 
-
  	// Add Single Post
  	$('.new-post-form').on('submit', function(e){
  		var title = $('#new-title').val();
@@ -74,6 +73,7 @@ $(function() {
 			var body = $('#commentBody').val();
 			$('#add-comment-' + postId).slideUp('slow');
 			addComment(postId, body);
+			getAllComments(postId);
 		});
 	});
 
@@ -88,7 +88,7 @@ $(function() {
 	// Get All Posts
  	function getAllPosts(){
 		$.get('/api/posts', function(data){
-			var allPosts = data.posts;
+			var allPosts = data;
 			var totalposts = allPosts.length;
 			$('#total-count-badge').text(totalposts);
 			var postsHtml = template({ posts: allPosts });
@@ -98,6 +98,11 @@ $(function() {
 					$('#post-favorite-'+allPosts[i]._id).show();
 				} else {
 					$('#post-favorite-'+allPosts[i]._id).hide();
+				}
+				if(allPosts[i].comments.length > 0){
+					$('#post-comment-'+allPosts[i]._id).show();
+				} else {
+					$('#post-comment-'+allPosts[i]._id).hide();
 				}
 			}
 		});
@@ -186,15 +191,19 @@ $(function() {
 	}
 
 	// Get All Comments
- 	function getAllComments(){
+ 	function getAllComments(id){
  		console.log("inside gac");
-		$.get('/api/posts/:id/comments', function(data){
-			console.log("gac" + data);
-
-			//var allComments = data.post.comments;
-			//var postsHtml = template({ posts: allComments });
-			//$('#comments-list').append(postsHtml);
+		$.get('/api/posts/'+id+'/comments', function(data){
+			//refreshCommentsSection(data);
 		});
+	}
+
+	function refreshCommentsSection(postObject){
+		console.log(postObject[0].comments);
+		var allComments = postObject[0].comments;
+		var commentsHtml = template({ comments: allComments });
+		$('#comments-server').empty();
+		$('#comments-api').append(commentsHtml);
 	}
 
 

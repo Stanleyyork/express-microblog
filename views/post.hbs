@@ -16,14 +16,29 @@
 
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
-      <div clas="row">
-        <div class="col-xs-6" id="nav-header">
-          <a href="http://localhost:3000/posts"><div id="all-posts-title">All Posts</a> <span class="badge" id="total-count-badge"></span>
+        <div clas="row">
+      <div class="col-xs-6" id="nav-header">
+        <a href="http://localhost:3000/posts"><div id="all-posts-title">All Posts</a>
+        </div>
+      </div>
+      <div class="col-xs-4" id="profile-button">
+        <div class ="pull-right">
+            <div class="nav-collapse">
+              <ul class="nav">
+                <li class="dropdown">
+                  <a href="#" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown">More<b class="caret"></b></a>
+                  <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
+                      <a href="http://localhost:3000/profile"><li><p id="nav-profile">Profile</p></li></a>
+                      <a href="http://localhost:3000/logout"><li><p id="nav-logout">Logout</p></li></a>
+                    </ul>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
-        <div class="col-xs-6" id="new-post-button">
-          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#NewPostModal">New Post</button>
-        </div>
+      </div>
+      <div class="col-xs-2" id="new-post-button">
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#NewPostModal">New Post</button>
+      </div>
       </div>
     </div>
   </nav>
@@ -79,28 +94,33 @@
               <input type="hidden" name="id" class="form-control" value="{{post._id}}" id="addCommentPostId">
             </div>
             <div class="form-group">
-              <input type="submit" class="btn btn-block btn-info" value="Update">
+              <input type="submit" class="btn btn-block btn-info" value="Submit">
             </div>
           </form>
         </div>
-        <script id="posts-template" type="text/x-handlebars-template">
-        \{{#each comments}}
-          <div class="thumbnail" id="thumbnail-posts-list">
-            <div class="row">
-              <p>\{{body}}</p>
-            </div>
-          </div>
-        \{{/each}}
-        </script>
+        
+        <div class="row" id="comments-api">
+          <script id="posts-template" type="text/x-handlebars-template">
+            \{{#each comments}}
+              <div class="thumbnail" id="thumbnail-comments-list">
+                <div class="row">
+                  <p>\{{body}}</p>
+                </div>
+              </div>
+            \{{/each}}
+          </script>
+        </div>
+
         <div class="row" id="comments-server">
         {{#each post.comments}}
-          <div class="thumbnail" id="thumbnail-comments-list">
+          <div class="thumbnail" id="thumbnail-comments-list-server">
             <div class="row">
               <p>{{body}}</p>
             </div>
           </div>
         {{/each}}
         </div>
+
       </div>
     </div>
   <!-- end of comments -->
@@ -136,7 +156,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <input type="submit" class="btn btn-info" value="submit"></input>
+            <input type="submit" class="btn btn-info" value="Update"></input>
           </div>
         </form>
       </div>

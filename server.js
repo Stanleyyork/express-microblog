@@ -2,20 +2,77 @@
 
 // APP REQUIREMENTS
 var express = require('express');
-var bodyParser = require('body-parser');
-var hbs = require('hbs');
-var app = express();
-var mongoose = require('mongoose');
-var Post = require('./models/post');
-var Comment = require('./models/comment');
+    bodyParser = require('body-parser'),
+    hbs = require('hbs'),
+    app = express(),
+    mongoose = require('mongoose'),
+    User = require('./models/user'),
+    Post = require('./models/post'),
+    Comment = require('./models/comment'),
+    cookieParser = require('cookie-parser'),
+    session = require('express-session'),
+    passport = require('passport'),
+    LocalStrategy = require('passport-local').Strategy;
+
 mongoose.connect('mongodb://localhost/express-microblog');
 app.set('view engine', 'hbs');
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(session({
+  secret: 'supersecretkey',
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // ROUTES
+// Redirect to login page if user not signed-in
+function isAuthenticated(req, res, next) {
+    if (req.user){
+    	return next();
+    }
+    res.redirect('/login');
+}
+// Get Signup View
+app.get('/signup', function (req, res) {
+  res.render('signup');
+});
+// Sign up new user, then log them in.
+// It hashes and salts password, and saves new user to db
+app.post('/signup', function (req, res) {
+  User.register(new User({ username: req.body.username }), req.body.password,
+    function (err, newUser) {
+      passport.authenticate('local')(req, res, function() {
+        res.redirect('/profile');
+      });
+    }
+  );
+});
+// Get Login View
+app.get('/login', function (req, res) {
+  res.render('login');
+});
+// Log-in User
+app.post('/login', passport.authenticate('local'), function (req, res) {
+  res.redirect('/profile');
+});
+// Log-out User
+app.get('/logout', function (req, res) {
+	console.log("logout in server");
+  req.logout();
+  res.redirect('/login');
+});
+// Get User Profile
+app.get('/profile', isAuthenticated, function (req, res) {
+  res.render('profile', { user: req.user });
+});
 // Get - All Posts
-app.get('/posts', function(req,res){
+app.get('/posts', isAuthenticated, function(req,res){
 	res.render('posts');
 });
 // Get - Single Post

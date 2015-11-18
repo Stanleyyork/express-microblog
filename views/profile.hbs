@@ -1,0 +1,98 @@
+<!-- profile.hbs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- set viewport to device width to make site responsive -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- bootstrap css -->
+	<link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+	<!-- custom styles -->
+	<link rel="stylesheet" type="text/css" href="/styles/main.css">
+	<meta charset="UTF-8">
+	<title>Profile</title>
+</head>
+<body>
+
+	<nav class="navbar navbar-default navbar-fixed-top">
+	  <div class="container-fluid">
+	      <div clas="row">
+			<div class="col-xs-6" id="nav-header">
+				<a href="http://localhost:3000/posts"><div id="all-posts-title">All Posts</a>
+				</div>
+			</div>
+			<div class="col-xs-4" id="profile-button">
+				<div class ="pull-right">
+			      <div class="nav-collapse">
+			        <ul class="nav">
+			        	<li class="dropdown">
+			        		<a href="#" id="drop2" role="button" class="dropdown-toggle" data-toggle="dropdown">More<b class="caret"></b></a>
+			        		<ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
+			            		<a href="http://localhost:3000/profile"><li><p id="nav-profile">Profile</p></li></a>
+			            		<a href="http://localhost:3000/logout"><li><p id="nav-logout">Logout</p></li></a>
+			          		</ul>
+			        	</li>
+			        </ul>
+			      </div>
+			    </div>
+			</div>
+			<div class="col-xs-2" id="new-post-button">
+				<button type="button" class="btn btn-info" data-toggle="modal" data-target="#NewPostModal">New Post</button>
+			</div>
+		  </div>
+	  </div>
+	</nav>
+
+	<script id="posts-template" type="text/x-handlebars-template">
+	</script>
+	<h2>Welcome, {{user.username}}!</h2>
+	<p>This is your profile page.</p>
+
+
+
+
+	<!-- New Post Modal -->
+	  <div class="modal fade" id="NewPostModal" tabindex="-1" role="dialog" aria-labelledby="NewPostModal">
+	    <div class="modal-dialog" role="document">
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	          <h4 class="modal-title" id="NewPostModal">New Post</h4>
+	        </div>
+	        
+	        <form class="new-post-form">
+	          <div class="modal-body">
+	              <div class="form-group">
+	                <label for="new-title" class="control-label">Title</label>
+	                <input type="text" class="form-control" id="new-title">
+	              </div>
+	              <div class="form-group">
+	                <label for="new-body" class="control-label">Body</label>
+	                <textarea class="form-control" id="new-body"></textarea>
+	              </div>
+	              <div class="form-group">
+	                <label for="new-url" class="control-label">URL</label>
+	                <input type="text" class="form-control" id="new-url">
+	              </div>
+	          </div>
+	          <div class="modal-footer">
+	            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	            <input type="submit" class="btn btn-info" value="submit"></input>
+	          </div>
+	        </form>
+	      </div>
+	    </div>
+	  </div>	
+
+	<!-- jquery -->
+  	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+  	<!-- bootstrap js -->
+  	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  	<!-- handlebars -->
+  	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.3/handlebars.min.js"></script>
+  	<script type="text/javascript" src="/scripts/script.js"></script>
+
+</body>
+</html>
